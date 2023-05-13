@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(normalizationContext: ['groups' => ['user:read']]),
-        new GetCollection(normalizationContext: ['groups' => ['user:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['user:list']]),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -25,11 +25,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:list', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['article:list', 'user:read'])]
+    #[Groups(['article:list', 'article:read', 'user:list', 'user:read'])]
     private ?string $username = null;
 
     #[ORM\Column]
@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:list', 'user:read'])]
     private Collection $articles;
 
     public function __construct()
