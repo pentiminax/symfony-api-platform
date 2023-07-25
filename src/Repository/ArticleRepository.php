@@ -38,4 +38,20 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findLastArticle(): ?Article
+    {
+        try {
+            return $this->createQueryBuilder('a')
+                ->addSelect('author')
+                ->innerJoin('a.author', 'author')
+                ->orderBy('a.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getResult()[0];
+        } catch (\Exception $e) {
+            echo($e->getMessage()); die;
+            return null;
+        }
+    }
 }

@@ -20,18 +20,30 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
+        $firstUser = new User();
+        $secondUser = new User();
 
-        $hashedPassword = $this->passwordHasher->hashPassword($user, 'password');
+        $hashedPassword = $this->passwordHasher->hashPassword($firstUser, 'password');
 
-        $user->setUsername('admin');
-        $user->setPassword($hashedPassword);
-        $user->setRoles(['ROLE_ADMIN']);
+        $firstUser->setUsername('First User');
+        $firstUser->setPassword($hashedPassword);
+        $firstUser->setRoles(['ROLE_ADMIN']);
 
-        $manager->persist($user);
+        $secondUser->setUsername('Second User');
+        $secondUser->setPassword($hashedPassword);
+        $secondUser->setRoles(['ROLE_ADMIN']);
+
+        $manager->persist($firstUser);
+        $manager->persist($secondUser);
 
         for ($i = 1; $i <= 10; $i++) {
             $article = new Article();
+
+            if ($i % 2 === 0) {
+                $article->setAuthor($firstUser);
+            } else {
+                $article->setAuthor($secondUser);
+            }
 
             $title = "Article $i";
             $slug = $this->slugger->slug($title)->lower();
@@ -39,7 +51,6 @@ class AppFixtures extends Fixture
             $article->setTitle($title);
             $article->setSlug($slug);
             $article->setDescription("Description $i");
-            $article->setUser($user);
             $article->setCreatedAt(new \DateTimeImmutable());
             $article->setPublishedAt(new \DateTimeImmutable());
 
