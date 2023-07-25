@@ -10,36 +10,47 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[UniqueEntity('slug')]
-#[ApiResource(
-
-)]
+#[ApiResource]
 class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['article:list', 'article:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list', 'article:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list', 'article:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['article:list', 'article:read'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['article:list', 'article:read'])]
     private ?string $body = null;
 
     #[ORM\Column]
+    #[Groups(['article:list', 'article:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['article:list', 'article:read'])]
     private ?\DateTimeImmutable $editedAt = null;
 
     #[ORM\Column]
+    #[Groups(['article:list', 'article:read'])]
     private ?\DateTimeImmutable $publishedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['article:list', 'article:read'])]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -134,5 +145,17 @@ class Article
     public function __toString(): string
     {
         return $this->title;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
