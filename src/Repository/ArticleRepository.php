@@ -49,8 +49,7 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getResult()[0];
-        } catch (\Exception $e) {
-            echo($e->getMessage()); die;
+        } catch (\Exception) {
             return null;
         }
     }
