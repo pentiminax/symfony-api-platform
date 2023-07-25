@@ -18,17 +18,10 @@ security:
             pattern: ^/api/login
             stateless: true
             provider: users
-            json_login:
-                check_path: /api/login
-                username_path: username
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
             pattern: ^/api
             stateless: true
-            jwt: ~
 
     access_control:
         - { path: ^/$, roles: PUBLIC_ACCESS }
