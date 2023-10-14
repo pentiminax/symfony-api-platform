@@ -1,6 +1,3 @@
 api_platform:
-  formats:
-    json: ['application/json']
-
   title: 'Pentiminax API'
   version: '1.0.0'

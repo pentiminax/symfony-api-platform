@@ -20,9 +20,12 @@ security:
             security: false
 
         main:
-            pattern: ^/api/login
-            stateless: true
+            lazy: true
             provider: users
+            form_login:
+                login_path: app_login
+                check_path: app_login
+
 
         api:
             pattern: ^/api
