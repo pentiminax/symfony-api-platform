@@ -17,40 +17,40 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?string $body = null;
 
     #[ORM\Column]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?\DateTimeImmutable $editedAt = null;
 
     #[ORM\Column]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['article:list', 'article:read'])]
+    #[Groups(['article:read'])]
     private ?User $author = null;
 
     public function getId(): ?int
